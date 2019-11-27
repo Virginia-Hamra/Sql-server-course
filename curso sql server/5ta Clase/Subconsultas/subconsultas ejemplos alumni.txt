@@ -1,0 +1,67 @@
+
+--SUBCONSULTAS
+--EJEMPLOS
+--1 EN EL SELECT
+SELECT
+ProductID, ListPrice,(SELECT AVG(ListPrice)FROM Production.Product)
+FROM Production.Product;
+--2 EN EL FROM
+SELECT pp.ProductID, pp.ListPrice, x.promedio
+FROM Production.Product pp
+INNER JOIN(SELECT ProductID, avg(LineTotal) promedio
+FROM Sales.SalesOrderDetail
+GROUP BY ProductID) x
+ON pp.ProductID=x.ProductID;--3 EN EL WHERE
+SELECT ProductID, ListPrice
+FROM Production.Product
+WHERE ListPrice <(
+SELECT AVG(LineTotal)
+FROM Sales.SalesOrderDetail);
+--4 CORRELACIONADAS
+SELECT p1.ProductSubcategoryID, p1.ProductID, p1.ListPrice
+FROM Production.Product p1
+WHERE ListPrice=(SELECT MIN (ListPrice)
+FROM Production.Product p2 WHERE p2.ProductSubcategoryID = p1.ProductSubcategoryID)
+ORDER BY p1.ProductSubcategoryID;
+--5 IN
+SELECT FirstName, MiddleName, LastName
+FROM Person.Person
+WHERE BusinessEntityID IN (
+SELECT BusinessEntityID
+FROM Sales.SalesPerson
+);
+--6 NOT IN
+SELECT FirstName, MiddleName, LastName
+FROM Person.Person
+WHERE BusinessEntityID NOT IN (
+SELECT BusinessEntityID
+FROM Sales.SalesPerson
+);
+--7 EXIST
+SELECT FirstName, LastName
+FROM Person.Person p
+WHERE EXISTS (SELECT BusinessEntityID
+FROM Sales.SalesPerson s WHERE p.BusinessEntityID=s.BusinessEntityID
+);
+--8 NOT EXIST
+SELECT FirstName, LastName
+FROM Person.Person p
+WHERE EXISTS (SELECT BusinessEntityID
+FROM Sales.SalesPerson s WHERE p.BusinessEntityID=s.BusinessEntityID
+);
+--9 ANY
+SELECT
+Name, ListPrice
+FROM Production.Product
+WHERE ListPrice > ANY (
+SELECT AVG(ListPrice) Promedio
+FROM Production.Product
+);
+--10 ALL
+SELECT Name,ListPrice
+FROM Production.Product
+WHERE ListPrice <> ALL (
+SELECT AVG(ListPrice) Promedio
+FROM Production.Product
+);
+

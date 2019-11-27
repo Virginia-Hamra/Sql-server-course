@@ -1,0 +1,90 @@
+use Adventureworks2016CTP3;
+SELECT Name, ListPrice, Color
+FROM Production.Product
+WHERE Name LIKE '%Seat%' AND ListPrice > 100;
+
+SELECT Name 
+FROM Production.Product
+WHERE Name LIKE '%mountain bike%';
+
+--3) Mostrar las personas que su nombre empiece con la letra 'y'. 
+
+--tablas:Person.Person
+--campos: FirstName
+
+SELECT  FirstName
+FROM Person.Person
+WHERE FirstName LIKE 'y%'; 
+
+--4)
+SELECT LastName
+FROM Person.Person
+WHERE LastName LIKE '_[s]%';
+
+--5)
+SELECT FirstName, LastName
+FROM Person.Person
+WHERE LastName LIKE '%ez';
+
+--6)
+SELECT Name
+FROM Production.Product
+WHERE Name LIKE '%[0-9]';
+
+--7)
+SELECT  FirstName
+FROM Person.Person
+WHERE FirstName LIKE '[C-c]_[^d-g][j-w]%';
+
+--Ejercicios Between
+
+--1)
+SELECT ListPrice
+FROM Production.Product
+WHERE ListPrice BETWEEN 200 AND 300;
+
+--2)
+SELECT BirthDate
+FROM HumanResources.Employee
+WHERE YEAR(BirthDate) BETWEEN 1970 AND 1985;
+
+--3)
+SELECT OrderDate, AccountNumber, SubTotal
+FROM  Sales.SalesOrderHeader 
+WHERE YEAR(OrderDate) BETWEEN 2005 AND 2006;
+
+--4)
+SELECT ListPrice
+FROM Production.Product
+WHERE ListPrice NOT BETWEEN 50 AND 70;
+
+--laboratorio IN
+
+--1)
+SELECT SalesOrderID, OrderQty, ProductID, UnitPrice 
+FROM  Sales.SalesOrderDetail 
+WHERE ProductID IN ('750','753','770');
+
+--2)
+SELECT Color
+FROM Production.Product
+WHERE Color IN ('green', 'white', 'blue');
+
+--laboratorio ORDER BY
+--1)
+SELECT FirstName, LastName
+FROM Person.Person
+ORDER BY LastName, FirstName;
+
+--2)
+SELECT Name, ListPrice 
+FROM Production.Product 
+WHERE ListPrice 
+ORDER BY Name
+
+
+--3)
+SELECT TOP 5 ListPrice, Name
+FROM Production.Product
+ORDER BY ListPrice desc;
+ 
